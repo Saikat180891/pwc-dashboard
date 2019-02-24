@@ -3,7 +3,7 @@ import "./Card.css";
 
 class Card extends Component {
   render() {
-    console.log(this.props.height, this.props.width);
+    // console.log(this.props.height, this.props.width);
 
     let cardStyle = {
       height: this.props.height,

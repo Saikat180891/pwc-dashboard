@@ -499,7 +499,7 @@ function manipulate(data) {
     }
   });
   let tempObject = {};
-  console.log(average);
+  // console.log(average);
   average.forEach((ele, averageIndex) => {
     tempObject["key"] = ele;
     tempObject["bar"] = true;
@@ -513,7 +513,7 @@ function manipulate(data) {
     newDataSet.push(tempObject);
     tempObject = {};
   });
-  console.log(newDataSet, datum);
+  // console.log(newDataSet, datum);
   return newDataSet;
 }
 
@@ -552,29 +552,29 @@ class Main extends Component {
           <div className="markers">
             <div className="small-card-wrapper">
               <SmallCards>
-                <Barchart
+                {/* <Barchart
                   data={this.state.chartData}
                   option={this.state.chartOptionsForSmallcard}
                   id={1}
-                />
+                /> */}
               </SmallCards>
             </div>
             <div className="small-card-wrapper">
               <SmallCards>
-                <Barchart
+                {/* <Barchart
                   data={this.state.chartData}
                   option={this.state.chartOptionsForSmallcard}
                   id={2}
-                />
+                /> */}
               </SmallCards>
             </div>
             <div className="small-card-wrapper">
               <SmallCards>
-                <Barchart
+                {/* <Barchart
                   data={this.state.chartData}
                   option={this.state.chartOptionsForSmallcard}
                   id={3}
-                />
+                /> */}
               </SmallCards>
             </div>
           </div>

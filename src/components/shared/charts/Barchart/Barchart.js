@@ -23,7 +23,7 @@ let data = [
   },
   {
     name: "arijit",
-    height: 67,
+    height: 900,
     timeStamp: new Date().getTime(),
     color: "blue"
   },
@@ -36,35 +36,35 @@ let data = [
 ];
 
 function drawChart(data, option, id) {
-  var svg = d3
+  const y = d3
+    .scaleLinear()
+    .domain([0, 10])
+    .range([0, 5]);
+
+  console.log(y(3));
+
+  const svg = d3
     .selectAll(".chart-area-" + id)
     .append("svg")
-    .attr("width", option.width)
-    .attr("height", option.height);
+    // .attr("width", option.width)
+    // .attr("height", option.height)
+    // .style("margin", "10px")
+    .style("padding", "10px")
+    .style("width", "100%")
+    .style("height", "100%");
 
-  var group = svg.append("g");
+  // const group = svg.append("g");
 
-  var y = d3
-    .scaleLinear()
-    .domain([0, 100])
-    .range([0, 200]);
-
-  var rect = group
+  const rect = svg
     .selectAll("rect")
     .data(data)
     .enter()
     .append("rect")
     .attr("y", 30)
-    .attr("x", function(d, i) {
-      return i * 15;
-    })
+    .attr("x", (d, i) => i * 15)
     .attr("width", 10)
-    .attr("height", function(d) {
-      return d.height;
-    })
-    .attr("fill", function(d) {
-      return d.color;
-    });
+    .attr("height", d => d.height)
+    .attr("fill", d => d.color);
 }
 
 class Barchart extends Component {
@@ -73,10 +73,10 @@ class Barchart extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container">
-          <div className="row">
-            <div className={"chart-area-" + this.props.id} />
-          </div>
+        <div className="chart-container">
+          {/* <div className="row"> */}
+          <div className={"chart-area-" + this.props.id} />
+          {/* </div> */}
         </div>
         {drawChart(data, this.props.option, this.props.id)}
       </React.Fragment>
