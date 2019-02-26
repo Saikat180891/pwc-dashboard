@@ -82,14 +82,14 @@ class Chat extends Component {
         <div className="chat-box-container">
           <div className="chat-users">
             <div className="chat-user-search">
+              <div className="search-icon">
+                <i className="material-icons">search</i>
+              </div>
               <input
                 type="search"
                 className="search-box"
                 placeholder="Search message or name"
               />
-              <div className="search-icon">
-                <i className="material-icons">search</i>
-              </div>
             </div>
 
             <div className="chat-user-container">

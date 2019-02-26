@@ -1,5 +1,5 @@
 .main {
-  padding: 30px 75px 0 75px;
+  padding: 30px 30px 0 30px;
   height: 100%;
   overflow: auto;
 }
@@ -18,10 +18,10 @@
 .heading {
   font-size: 28px;
   margin-bottom: 30px;
-  color: #43425d;
+  color: #959698;
 }
 .small-card-wrapper {
-  width: 30%;
+  width: calc((100% / 3) - 23px);
 }
 .card-wrapper {
   margin: 0 0 30px 0;

@@ -48,9 +48,9 @@ class Dashboard extends Component {
             <React.Fragment>
               <div className="Sidebar">
                 <div className="brand-logo">
-                  <img src={logo} alt="pwc" />
+                  <span>DASHBOARD</span>
                 </div>
-                <Link to="/" className="list-item">
+                <Link to="/" className="list-item" style={{display :"none"}}>
                   <span className="list-item-icon">
                     <i className="material-icons">home</i>
                   </span>

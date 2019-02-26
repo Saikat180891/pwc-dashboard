@@ -5,7 +5,7 @@ class User extends Component {
   render() {
     const userWhenActive = {
       backgroundColor:
-        this.props.selected === this.props.id ? "#f5f6fa" : "#ffffff"
+        this.props.selected === this.props.id ? "#262A2D" : "#2F3437"
     };
     return (
       <div

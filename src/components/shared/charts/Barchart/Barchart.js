@@ -1,19 +1,47 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
 import "./Barchart.css";
+import NVD3Chart from "react-nvd3";
 
-// let formatDate = date => {
-//   let month = date.getMonth() + 1;
-//   return month + "-" + date.getDate() + "-" + date.getFullYear();
-// };
+var datum = [{
+  key: "Cumulative Return",
+  values: [
+    {
+      "label" : "A" ,
+      "value" : -29.765957771107
+    } ,
+    {
+      "label" : "B" ,
+      "value" : 0
+    } ,
+    {
+      "label" : "C" ,
+      "value" : 32.807804682612
+    } ,
+    {
+      "label" : "D" ,
+      "value" : 196.45946739256
+    } ,
+    {
+      "label" : "E" ,
+      "value" : 0.19434030906893
+    } ,
+    {
+      "label" : "F" ,
+      "value" : -98.079782601442
+    } ,
+    {
+      "label" : "G" ,
+      "value" : -13.925743130903
+    } ,
+    {
+      "label" : "H" ,
+      "value" : -5.1387322875705
+    }
+  ]
+}
+];
 
-// console.log(d3.timeFormat("%d-%m-%y")(new Date()));
-
-// var context = {
-//   getColor: function(i) {
-//     var colors = 0;
-//   }
-// };
 let data = [
   {
     name: "saikat",
@@ -73,12 +101,7 @@ class Barchart extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="chart-container">
-          {/* <div className="row"> */}
-          <div className={"chart-area-" + this.props.id} />
-          {/* </div> */}
-        </div>
-        {drawChart(data, this.props.option, this.props.id)}
+        <NVD3Chart id="barChart" type="discreteBarChart" datum={this.props.data} x="label" y="value" height="300" color={['#C16975']}/>
       </React.Fragment>
     );
   }

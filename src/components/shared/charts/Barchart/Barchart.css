@@ -1,0 +1,18 @@
+.nvd3 .nv-axis line{
+  stroke: transparent;
+}
+.nvd3 .nv-axis line{
+  /* stroke: transparent; */
+}
+.nvd3 .nv-axis path{
+  stroke: #969799;
+}
+.nv-zeroLine line{
+  stroke: #969799 !important;
+}
+.nvd3 .nv-axis .nv-axisMaxMin text{
+  fill: #969799;
+}
+.nvd3 text{
+  fill: #969799 !important;
+}

@@ -12,14 +12,17 @@
   height: 25px;
   font-size: 14px;
   border-radius: calc(25px / 2);
-  border: 1px solid #f0f0f7;
+  border: 1px solid #262A2D;
   outline: none;
   padding-left: 35px;
   transition: border 0.3s ease;
   margin-left: 50px;
+  background-color: #262A2D;
+  color: #969799;
+
 }
 .nav-bar div input[type="text"].search-box:focus {
-  border: 1px solid #43425d;
+  border: 1px solid #959698;
   box-shadow: none;
 }
 .nav-bar div input[type="text"].search-box::placeholder {

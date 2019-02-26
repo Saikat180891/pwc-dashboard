@@ -1,11 +1,48 @@
 import React, { Component } from "react";
 import SmallCards from "../../shared/small-cards/SmallCards";
-import Card from "../../shared/card/Card";
+import CardCustom from "../../shared/card/Card";
 import axios from "axios";
 import "./Main.css";
 import Barchart from "../../shared/charts/Barchart/Barchart";
 import NVD3Chart from "react-nvd3";
-
+const datum2 = [{
+  key: "Cumulative Return",
+  values: [
+    {
+      "label" : "A" ,
+      "value" : -29.765957771107
+    } ,
+    {
+      "label" : "B" ,
+      "value" : 0
+    } ,
+    {
+      "label" : "C" ,
+      "value" : 32.807804682612
+    } ,
+    {
+      "label" : "D" ,
+      "value" : 196.45946739256
+    } ,
+    {
+      "label" : "E" ,
+      "value" : 0.19434030906893
+    } ,
+    {
+      "label" : "F" ,
+      "value" : -98.079782601442
+    } ,
+    {
+      "label" : "G" ,
+      "value" : -13.925743130903
+    } ,
+    {
+      "label" : "H" ,
+      "value" : -5.1387322875705
+    }
+  ]
+}
+];
 const datum = [
   {
     key: "Long",
@@ -517,10 +554,100 @@ function manipulate(data) {
   return newDataSet;
 }
 
+function check(key, value){
+  var patt = new RegExp(value);
+  var res = patt.test(key);
+  return res;
+}
+let ids = [];
+function manipulate2(datas){
+  
+
+  let mydata = [];
+
+  
+  for(let i = 0; i < datas.length; i++){
+    let tempObject = {
+      key:-1,
+      values:[]
+    };
+    let chartdatas = {
+      label:"",
+      value:""
+    };
+    
+    for(let key in datas[i]){
+      if(check(key, "id") || check(key, "average")){
+        if(key === "id"){
+          ids.push({id:datas[i][key], index:i})
+          tempObject["key"] = datas[i][key];
+        }else{
+          chartdatas.label = key;
+          chartdatas.value = +datas[i][key];
+          tempObject.values.push(chartdatas);
+          chartdatas = {};
+        }
+      }
+    }
+    
+    mydata.push(tempObject);
+    tempObject = {};
+  }
+  
+  return mydata;
+}
+
+function drawBarChart(){
+  var datum = [{
+    key: "Cumulative Return",
+    values: [
+      {
+        "label" : "A" ,
+        "value" : -29.765957771107
+      } ,
+      {
+        "label" : "B" ,
+        "value" : 0
+      } ,
+      {
+        "label" : "C" ,
+        "value" : 32.807804682612
+      } ,
+      {
+        "label" : "D" ,
+        "value" : 196.45946739256
+      } ,
+      {
+        "label" : "E" ,
+        "value" : 0.19434030906893
+      } ,
+      {
+        "label" : "F" ,
+        "value" : -98.079782601442
+      } ,
+      {
+        "label" : "G" ,
+        "value" : -13.925743130903
+      } ,
+      {
+        "label" : "H" ,
+        "value" : -5.1387322875705
+      }
+    ]
+  }
+];
+return React.render(
+  <NVD3Chart id="barChart" type="discreteBarChart" datum={datum} x="label" y="value"/>,
+  document.getElementById('barChart')
+);
+}
+
 class Main extends Component {
   state = {
     itemList: [1, 2, 3, 4],
     chartData: [],
+    ids: [],
+    currentid:"",
     chartOptionsForSmallcard: {
       height: 50,
       width: "100%"
@@ -528,8 +655,48 @@ class Main extends Component {
     chartOptionsForBigCard: {
       height: 300,
       width: 300
+    },
+    datum: [{
+      key: "Cumulative Return",
+      values: [
+        {
+          "label" : "A" ,
+          "value" : -29.765957771107
+        } ,
+        {
+          "label" : "B" ,
+          "value" : 0
+        } ,
+        {
+          "label" : "C" ,
+          "value" : 32.807804682612
+        } ,
+        {
+          "label" : "D" ,
+          "value" : 196.45946739256
+        } ,
+        {
+          "label" : "E" ,
+          "value" : 0.19434030906893
+        } ,
+        {
+          "label" : "F" ,
+          "value" : -98.079782601442
+        } ,
+        {
+          "label" : "G" ,
+          "value" : -13.925743130903
+        } ,
+        {
+          "label" : "H" ,
+          "value" : -5.1387322875705
+        }
+      ]
     }
-  };
+  ],
+  barchartData:[]
+  
+};
 
   actualData = [];
   componentDidMount() {
@@ -537,18 +704,26 @@ class Main extends Component {
       .get("https://dams-dev-ui.southindia.cloudapp.azure.com/api/util")
       .then(res => {
         this.actualData = res.data;
-        this.setState({ chartData: manipulate(res.data) });
-        console.log(this.state.chartData);
+        this.setState({ chartData: manipulate2(res.data), ids:ids });
+        this.setState({barchartData:this.state.chartData[0]});
+        this.setState({currentid:this.state.ids[0]});
       })
       .catch(err => {
         console.log(err);
       });
   }
+
+  optionSelected(e){
+    this.setState({barchartData:this.state.chartData[e.index]});
+    this.setState({currentid:this.state.ids[e.index]});
+    console.log(this.state.currentid.id)
+  }
+
   render() {
     return (
       <div className="main">
         <div className="cards-area">
-          <div className="heading">Overview</div>
+          <div className="heading">Dashboard</div>
           <div className="markers">
             <div className="small-card-wrapper">
               <SmallCards>
@@ -581,54 +756,40 @@ class Main extends Component {
           <div className="chart-container-main">
             <div className="custom-row">
               <div className="card-wrapper c1">
-                <Card height={"400px"} width={"100%"}>
-                  <NVD3Chart
-                    type="cumulativeLineChart"
-                    datum={this.state.chartData}
-                    x={getX}
-                    y={getY}
-                    // color={["#A3A0FB", "#5EE2A0", "#55D8FE", "#FF4141"]}
-                    height={300}
-                    useInteractiveGuideline={true}
-                    staggerLabels={true}
-                    fontSize={"12px"}
-                  />
-                </Card>
+                <CardCustom data={this.state.ids} optionSelected={this.optionSelected.bind(this)} todisplay={this.state.currentid.id} noselect={false} header={'Average Values'}>
+                  <Barchart
+                      data={[this.state.barchartData]}
+                      option={this.state.chartOptionsForBigCard}
+                      id={6}
+                    />
+                </CardCustom>
               </div>
             </div>
             <div className="custom-row">
               <div className="card-wrapper c3">
-                <Card height={"400px"} width={"100%"}>
-                  {/* <NVD3Chart
-                    type="historicalBarChart"
-                    datum={this.state.chartData[0]}
-                    xAxis={getXaxis}
-                    yAxis={getYaxis}
-                    // color={["#A3A0FB", "#5EE2A0", "#55D8FE", "#FF4141"]}
-                    height={300}
-                    useInteractiveGuideline={true}
-                    staggerLabels={true}
-                    fontSize={"12px"}
-                  /> */}
-                </Card>
+                <CardCustom height={"400px"} width={"100%"} id={"barchart"} noselect={true}>
+                  {
+                    // drawBarChart()
+                  }
+                </CardCustom>
               </div>
               <div className="card-wrapper c3">
-                <Card height={"400px"} width={"100%"}>
-                  <Barchart
+                <CardCustom height={"400px"} width={"100%"} noselect={true}>
+                  {/* <Barchart
                     data={this.state.chartData}
                     option={this.state.chartOptionsForBigCard}
                     id={6}
-                  />
-                </Card>
+                  /> */}
+                </CardCustom>
               </div>
               <div className="card-wrapper c3">
-                <Card height={"400px"} width={"100%"}>
-                  <Barchart
+                <CardCustom height={"400px"} width={"100%"} noselect={true}>
+                  {/* <Barchart
                     data={this.state.chartData}
                     option={this.state.chartOptionsForBigCard}
                     id={7}
-                  />
-                </Card>
+                  /> */}
+                </CardCustom>
               </div>
             </div>
           </div>
